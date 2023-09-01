@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="font/css/all.min.css">
+</head>
+<body>
+    <form action="" id="form" class="col-md-6 mx-auto mt-5">
+        <label for="">Name</label>
+        <input type="text" name="name" class="form-control" placeholder="Enter Name">
+        <div class="mb-2 text-danger" id="nameErr"></div>
+        <label for="">Email</label>
+        <input type="email" name="email" class="form-control" placeholder="Enter Email">
+        <div class="mb-2 text-danger" id="emailErr"></div>
+
+        <label for="password">password</label>
+        <input type="password" name="password" class="form-control" placeholder="Enter password">
+        <div class="mb-2 text-danger" id="passwordErr"></div>
+
+        <button type="button" id="button">Submit</button>
+    </form>
+<h3 class="border">Regsitered Users</h3>
+<table class="table table-striped border w-100">
+    <thead>
+        <tr>
+            <th>S/N</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Password</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody id='tbody'>
+
+    </tbody>
+</table>
+    <script>
+        
+        
+        let members = []
+        button.addEventListener('click', (e)=>{
+            user = ''
+            let username = form.name.value
+            let password = form.password.value
+            let email = form.email.value
+            e.preventDefault();
+            let regEmail = /^[a-z0-9]+@[a-z]+\.[a-z]{2,3}$/;
+            let regpassword = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{8,15}$/;
+            nameErr.innerHTML = emailErr.innerHTML = passwordErr.innerHTML = ''
+            if (username === '' || password === '' || email === '') {
+                
+           
+            if (username === '') {
+                nameErr.innerHTML = 'Name is required'
+            }
+            if (password === '') {
+                passwordErr.innerHTML = 'Password is required'
+            }
+            if (email === '') {
+                emailErr.innerHTML = 'Email is required'
+            } 
+        }else if(!regpassword.test(password)){
+            passwordErr.innerHTML = 'Password must 8 to 15 characters which contain at least one lowercase letter, one uppercase letter, one numeric digit, and one special character'
+        }
+        else if(!regEmail.test(email)) {
+            emailErr.innerHTML = 'Enter a correct email address';
+        }else{
+        let user = {name: username, password:password, email:email}
+        members.push(user)
+        // console.log(members);
+        display()
+
+        }
+            
+        })
+
+        function display() {
+            tbody.innerHTML  ='' 
+            members.forEach((elem, i)=>{
+                tbody.innerHTML += `
+                <tr>
+                    <td>${i + 1}</td>
+                    <td>${elem.name}</td>
+                    <td>${elem.email}</td>
+                    <td>${elem.password}</td>
+                    <td ondblclick='del(${i})' title="Double Click to delete">Delete</td>
+                </tr>
+                `
+            })
+        }
+
+        display()
+        function del(i) {
+            members.splice(i,1)
+            display()
+        }
+    </script>
+</body>
+</html>
